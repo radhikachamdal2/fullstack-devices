@@ -14,7 +14,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     email: String!
-    devices: [Device] # To be resolved from Devices Service
+
   }
 `;
 
@@ -32,5 +32,5 @@ const resolvers = {
 const server = new ApolloServer({ schema: buildSubgraphSchema({ typeDefs, resolvers }) });
 
 server.listen({ port: 4001 }).then(({ url }) => {
-  console.log(`🚀 Account Service running at ${url}`);
+  console.log(`Account Service running at ${url}`);
 });

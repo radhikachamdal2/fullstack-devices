@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",               // Compile to modern JavaScript
+      "module": "CommonJS",             // Use CommonJS for modules (standard for Node.js)
+      "strict": true,                   // Enable strict type checking
+      "esModuleInterop": true,          // Compatibility with CommonJS modules
+      "skipLibCheck": true,             // Skip type checking of declaration files (for speed)
+      "forceConsistentCasingInFileNames": true // Consistent casing in filenames
+    },
+    "include": [
+      "services/account-service/index.ts",
+      "services/devices-service/index.ts"  
+    ]
+  }

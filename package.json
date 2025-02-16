@@ -8,15 +8,19 @@
     "services/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+"dev": "concurrently \"ts-node services/account-service/index.ts\" \"ts-node services/devices-service/index.ts\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@apollo/gateway": "^2.10.0",
+    "@types/node": "^22.13.4",
     "apollo-server": "^3.13.0",
     "dotenv": "^16.4.7",
-    "graphql": "^16.10.0"
+    "graphql": "^16.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }
