@@ -20,7 +20,12 @@ const typeDefs = gql`
 
 const accounts = [
   { id: "1", name: "Test", email: "test@example.com" },
-  { id: "2", name: "Radhika", email: "radhika@example.com" }
+  { id: "2", name: "Radhika", email: "radhika@example.com" },
+  { id: "2", name: "Radhika", email: "radhika@example.com" }, 
+  { id: "3", name: "Test4", email: "radhika@example.com" },
+  { id: "4", name: "Ben", email: "radhika@example.com" },
+  { id: "1", name: "Manny", email: "radhika@example.com" },
+  { id: "2", name: "Gloria", email: "radhika@example.com"   }
 ];
 
 const resolvers = {
@@ -29,8 +34,12 @@ const resolvers = {
   }
 };
 
-const server = new ApolloServer({ schema: buildSubgraphSchema({ typeDefs, resolvers }) });
+const server = new ApolloServer({ schema: buildSubgraphSchema({ typeDefs, resolvers }),   cors: {
+  origin: "http://localhost:8081",
+  credentials: true,
+},
 
-server.listen({ port: 4001 }).then(({ url }) => {
-  console.log(`Account Service running at ${url}`);
+}); 
+server.listen({ port: 4001}).then(({ url }) => {
+  console.log(`🚀 Account Service ready at ${url}`);
 });

@@ -19,7 +19,11 @@ const typeDefs = gql`
 
 const devices = [
   { id: "1", name: "Test", device: "iphone" },
-  { id: "2", name: "Radhika", device: "watch"  }
+  { id: "2", name: "Radhika", device: "watch"}, 
+  { id: "3", name: "Test4", device: "iphone4" },
+  { id: "4", name: "Ben", device: "apple-watch"},
+  { id: "1", name: "Manny", device: "fitbit" },
+  { id: "2", name: "Gloria", device: "tabler"  }
 ];
 
 const resolvers = {
@@ -28,8 +32,12 @@ const resolvers = {
   }
 };
 
-const server = new ApolloServer({ schema: buildSubgraphSchema({ typeDefs, resolvers }) });
+const server = new ApolloServer({ schema: buildSubgraphSchema({ typeDefs, resolvers }),   cors: {
+  origin: "*",
+  credentials: true,
+},
+});
 
-server.listen({ port: 4002 }).then(({ url }) => {
-  console.log(`Account Service running at ${url}`);
+server.listen({ port: 4002}).then(({ url }) => {
+  console.log(`Devices Service running at ${url}`);
 });

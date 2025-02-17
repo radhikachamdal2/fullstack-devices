@@ -8,7 +8,11 @@ const gateway = new ApolloGateway({
   ],
 });
 
-const server = new ApolloServer({ gateway });
+const server = new ApolloServer({ gateway,   cors: {
+  origin: "http://localhost:8081",
+  credentials: true,
+},
+ } )
 
 server.listen({ port: 4000 }).then(({ url }) => {
   console.log(`Apollo Gateway running at ${url}`);
