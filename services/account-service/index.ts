@@ -4,11 +4,11 @@ import gql from "graphql-tag";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 import { accounts } from './mockData';
-import { devices } from '../devices-service/mockData'; // Assuming devices are imported from device mock data
+import { devices } from '../devices-service/mockData'; 
 
 dotenv.config();
 
-// Define the GraphQL schema
+
 const typeDefs = gql`
   type Account @key(fields: "id") {
     id: ID!
@@ -53,13 +53,13 @@ const resolvers = {
   Mutation: {
     createAccount: (parent: any, { input }: { input: { name: string; email: string } }) => {
       const newAccount = {
-        id: uuidv4(), // Create a unique ID
+        id: uuidv4(), 
         name: input.name,
         email: input.email,
       };
 
-      accounts.push(newAccount);  // Add new account to mock data
-      return newAccount;  // Return the new account
+      accounts.push(newAccount); 
+      return newAccount;  
     },
   },
 };

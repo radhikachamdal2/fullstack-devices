@@ -3,17 +3,10 @@ import { buildSubgraphSchema } from "@apollo/subgraph";
 import gql from "graphql-tag";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+import { devices } from "./mockData";
 
 dotenv.config();
 
-// Mock data for devices
-export const devices = [
-  { id: "1", name: "Test iPhone", device: "iPhone", accountId: "1" },
-  { id: "2", name: "Test iPad", device: "iPad", accountId: "1" },
-  { id: "3", name: "Radhika's iPhone", device: "iPhone", accountId: "2" },
-  { id: "4", name: "Radhika's iPad", device: "iPad", accountId: "2" },
-  { id: "5", name: "Test4's Android", device: "Android", accountId: "3" },
-];
 
 const typeDefs = gql`
   type Device @key(fields: "id") {
@@ -40,20 +33,20 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    devices: () => devices,  // Returns all devices
+    devices: () => devices, 
   },
 
   Mutation: {
     createDevice: (parent: any, { input }: { input: { name: string; device: string, accountId: string } }) => {
       const newDevice = {
-        id: uuidv4(), // Create a unique ID
+        id: uuidv4(), 
         name: input.name,
         device: input.device,
         accountId: input.accountId,  // Link device to an account
       };
 
-      devices.push(newDevice);  // Add new device to mock data
-      return newDevice;  // Return the new device
+      devices.push(newDevice); 
+      return newDevice;  
     },
   },
 };
