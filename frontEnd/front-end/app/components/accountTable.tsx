@@ -67,7 +67,7 @@ const AccountTable: React.FC<AccountTableProps> = ({
                 />
               </TableCell>
               <TableCell>{item.name}</TableCell>
-              <TableCell>{item.email}</TableCell>
+              <TableCell>{item.email || item.device}</TableCell>
               <TableCell
                 style={{
                   backgroundColor:

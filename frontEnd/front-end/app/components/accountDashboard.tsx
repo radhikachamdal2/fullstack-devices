@@ -8,7 +8,7 @@ import Dialog from "./dialog";
 import DialogData from "./dialogData";
 import ToggleButtons from "./toggleButton";
 import { useQuery } from "@apollo/client";
-import { GET_ACCOUNTS } from "../queries/queries";
+import { GET_ACCOUNTS, GET_DEVICES } from "../queries/queries";
 
 type Task = {
   id: number;
@@ -36,7 +36,15 @@ const AccountDashboard = () => {
     []
   );
 
-  const { loading, error, data } = useQuery(GET_ACCOUNTS);
+  const {
+    loading: AccountsLoad,
+    error: AccountsError,
+    data,
+  } = useQuery(GET_ACCOUNTS);
+
+  const { loading, error, data: DeviceData } = useQuery(GET_DEVICES);
+
+  console.log(DeviceData, "data", loading, "loading");
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -51,7 +59,7 @@ const AccountDashboard = () => {
     return tasks.filter((task) => task.status.toLowerCase() === "complete");
   };
 
-  const displayedTasks = showCompleted ? filterCompletedTasks(tasks) : tasks;
+  const displayedData = showCompleted ? DeviceData.devices : data?.accounts;
 
   return (
     <>
@@ -91,7 +99,7 @@ const AccountDashboard = () => {
         selectedTask={selectedTask}
         checkboxHandler={checkboxHandler}
         taskHeaders={taskHeaders}
-        tasks={data.accounts}
+        tasks={displayedData}
       />
       <Dialog
         open={addNewDialog}

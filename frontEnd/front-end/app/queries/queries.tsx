@@ -19,3 +19,23 @@ export const CREATE_ACCOUNT_MUTATION = gql`
     }
   }
 `;
+
+export const GET_DEVICES = gql`
+  query GetDevices {
+    devices {
+      id
+      name
+      device
+    }
+  }
+`;
+
+export const CREATE_NEW_DEVICE = gql`
+  mutation CreateDevice($input: DeviceInput!) {
+    createNewDevice(input: $input) {
+      id
+      name
+      device
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-export  const accounts = [
+export const accounts = [
     { id: "1", name: "Test", email: "test@example.com" },
     { id: "2", name: "Radhika", email: "radhika@example.com" },
     { id: "3", name: "Radhika", email: "radhika@example.com" }, 

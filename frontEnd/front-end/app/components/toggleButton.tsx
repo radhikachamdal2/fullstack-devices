@@ -30,12 +30,15 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
       <ToggleButton
         role="button"
         value="completed"
-        aria-label="Devices accounts"
+        aria-label=" View All Devices"
       >
-        Accounts with Devices
+        All Devices
       </ToggleButton>
       <ToggleButton role="button" value="all" aria-label="View All Accounts">
         All Accounts
+      </ToggleButton>
+      <ToggleButton role="button" value="all" aria-label="View All Accounts">
+        View Accounts with Devices
       </ToggleButton>
     </ToggleButtonGroup>
   );
