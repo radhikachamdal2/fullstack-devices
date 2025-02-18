@@ -1,6 +1,8 @@
-export const taskHeaders = ["", "Name", "Email", "Devices"];
+export const accountHeaders = ["", "Name", "Email", "Devices"];
 
-export const addNewTaskFields = [
+export const deviceHeaders = ["", "Name", "Devices"];
+
+export const accountData = [
   {
     title: "Name",
     description: [""],

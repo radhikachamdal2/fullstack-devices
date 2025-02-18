@@ -3,26 +3,26 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 interface ToggleButtonsProps {
-  showCompleted: boolean;
-  setShowCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+  showAllAccounts: boolean;
+  setShowAllAccounts: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ToggleButtons: React.FC<ToggleButtonsProps> = ({
-  showCompleted,
-  setShowCompleted,
+  showAllAccounts,
+  setShowAllAccounts,
 }) => {
   const handleToggle = (
     event: React.MouseEvent<HTMLElement>,
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setShowCompleted(newValue === "completed");
+      setShowAllAccounts(newValue === "completed");
     }
   };
 
   return (
     <ToggleButtonGroup
-      value={showCompleted ? "completed" : "all"}
+      value={showAllAccounts ? "completed" : "all"}
       exclusive
       onChange={handleToggle}
       aria-label="View Accounts"
@@ -33,9 +33,6 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
         aria-label=" View All Devices"
       >
         All Devices
-      </ToggleButton>
-      <ToggleButton role="button" value="all" aria-label="View All Accounts">
-        All Accounts
       </ToggleButton>
       <ToggleButton role="button" value="all" aria-label="View All Accounts">
         View Accounts with Devices

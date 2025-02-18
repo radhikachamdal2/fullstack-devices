@@ -13,28 +13,25 @@ import {
 import { styled } from "@mui/material/styles";
 import React from "react";
 
-type Task = {
+type Device = {
+  name: string;
+};
+
+type Account = {
   id: number;
-  title: string;
-  description: string[];
-  status: string;
+  name: string;
+  email: string;
+  devices: [Device];
 };
 
 interface AccountTableProps {
-  tasks: Task[];
-  taskHeaders: string[];
-  checkboxHandler: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    task: Task
-  ) => void;
-  selectedTask: Task | null;
+  accountData: Account[];
+  headers: string[];
 }
 
 const AccountTable: React.FC<AccountTableProps> = ({
-  tasks,
-  taskHeaders,
-  checkboxHandler,
-  selectedTask,
+  accountData,
+  headers,
 }) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -46,33 +43,38 @@ const AccountTable: React.FC<AccountTableProps> = ({
     },
   }));
 
+  const getDeviceColumnContent = (devices: Device[]) => {
+    console.log(devices, "devices");
+    if (devices?.length > 0) {
+      return devices
+        .map((device, index) => <span key={index}>{device.name}</span>)
+        .reduce((prev, curr) => [prev, ", ", curr]);
+    }
+    return <span style={{ color: "gray" }}>No Devices</span>;
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            {taskHeaders?.map((header, index) => (
+            {headers?.map((header, index) => (
               <StyledTableCell key={index}>{header}</StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {tasks?.map((account) => (
+          {accountData?.map((account) => (
             <React.Fragment key={account.id}>
               <TableRow>
                 <TableCell>
-                  <Checkbox
-                    checked={selectedTask?.id === account.id}
-                    onChange={(event) => checkboxHandler(event, account)}
-                  />
+                  <Checkbox />
                 </TableCell>
                 <TableCell>{account.name}</TableCell>
-                <TableCell>{account.email}</TableCell>
-                <TableCell>
-                  {account.devices?.map((device) => device.name).join(", ") ||
-                    "No Devices"}
-                </TableCell>
+                {/* Conditionally render the email cell if email is present */}
+                {account.email && <TableCell>{account.email}</TableCell>}
+                <TableCell>{getDeviceColumnContent(account.devices)}</TableCell>
               </TableRow>
             </React.Fragment>
           ))}

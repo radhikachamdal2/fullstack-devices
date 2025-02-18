@@ -2,64 +2,55 @@
 
 import { Button, Alert, Snackbar } from "@mui/material";
 import AccountTable from "./accountTable";
-import { taskHeaders, addNewTaskFields } from "../mockData";
-import { useState, useCallback } from "react";
+import { accountHeaders, accountData, deviceHeaders } from "../mockData";
+import { useState } from "react";
 import Dialog from "./dialog";
 import DialogData from "./dialogData";
 import ToggleButtons from "./toggleButton";
 import { useQuery } from "@apollo/client";
 import { GET_ACCOUNTS, GET_DEVICES } from "../queries/queries";
 
-type Task = {
-  id: number;
-  title: string;
-  description: string[];
-  status: string;
-};
-
 const AccountDashboard = () => {
-  const [addNewDialog, setAddNewDialog] = useState<boolean>(false);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [showCompleted, setShowCompleted] = useState(false);
-
-  const checkboxHandler = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>, singleTask: Task) => {
-      const isChecked = event.target.checked;
-      if (isChecked) {
-        setSelectedTask(singleTask);
-      } else {
-        setSelectedTask(null);
-      }
-    },
-    []
-  );
+  const [newAccountDialog, setNewAccountDialog] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAllAccounts, setShowAllAccounts] = useState(false);
 
   const {
     loading: AccountsLoad,
     error: AccountsError,
-    data,
+    data: AccountsData,
   } = useQuery(GET_ACCOUNTS);
 
-  const { loading, error, data: DeviceData } = useQuery(GET_DEVICES);
+  const {
+    loading: DeviceLoading,
+    error: DeviceError,
+    data: DeviceData,
+  } = useQuery(GET_DEVICES);
 
-  console.log(DeviceData, "data", loading, "loading", data);
+  const isLoading = AccountsLoad || DeviceLoading;
+  const isError = AccountsError || DeviceError;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
-  const onSubmit = (newTask: Task) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+  const onSubmit = () => {
     setShowAlert(true);
-    setAddNewDialog(false);
+    setNewAccountDialog(false);
+  };
+  const filterData = () => {
+    if (!showAllAccounts) {
+      return {
+        data: AccountsData?.accounts || [],
+        headers: accountHeaders,
+      };
+    } else {
+      return {
+        data: DeviceData?.devices || [],
+        headers: deviceHeaders,
+      };
+    }
   };
 
-  const filterCompletedTasks = (tasks: Task[]): Task[] => {
-    return tasks.filter((task) => task.status.toLowerCase() === "complete");
-  };
+  const { data, headers } = filterData();
 
-  const displayedData = showCompleted ? DeviceData.devices : data?.accounts;
+  console.log(data, "dataaa");
 
   return (
     <>
@@ -74,59 +65,57 @@ const AccountDashboard = () => {
         }}
       >
         <ToggleButtons
-          showCompleted={showCompleted}
-          setShowCompleted={setShowCompleted}
+          showAllAccounts={showAllAccounts}
+          setShowAllAccounts={setShowAllAccounts}
         />
         <Button
           sx={{ textTransform: "none" }}
           variant="contained"
-          onClick={() => setAddNewDialog(true)}
+          onClick={() => setNewAccountDialog(true)}
           aria-label="Open create new account form"
         >
           Create new account
         </Button>
       </div>
 
-      <AccountTable
-        selectedTask={selectedTask}
-        checkboxHandler={checkboxHandler}
-        taskHeaders={taskHeaders}
-        tasks={displayedData}
-      />
+      {/* Loading and Error Handling */}
+      {isLoading && <p>Loading...</p>}
+      {isError && (
+        <Snackbar open={showAlert} autoHideDuration={4000} onClose={() => {}}>
+          <Alert severity="error">
+            {AccountsError && `Accounts Error: ${AccountsError.message}`}
+            {DeviceError && ` Devices Error: ${DeviceError.message}`}
+          </Alert>
+        </Snackbar>
+      )}
+
+      {/* Table */}
+      {!isLoading && <AccountTable headers={headers} accountData={data} />}
+
+      {/* Dialog for Creating New Accounts */}
       <Dialog
-        open={addNewDialog}
-        handleClose={() => {
-          setAddNewDialog(false);
-        }}
+        open={newAccountDialog}
+        handleClose={() => setNewAccountDialog(false)}
         title="Create New Account"
         contentText="To create a new account, please fill out all the fields!"
       >
         <DialogData
-          tasks={tasks}
-          headers={addNewTaskFields}
+          data={accountData}
           onSubmit={onSubmit}
-          handleClose={() => {
-            setAddNewDialog(false);
-          }}
+          handleClose={() => setNewAccountDialog(false)}
         />
-        <Snackbar
-          open={showAlert}
-          autoHideDuration={3000}
-          onClose={() => {
-            setShowAlert(false);
-          }}
-        >
-          <Alert
-            onClose={() => {
-              setShowAlert(false);
-            }}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            New Task Added
-          </Alert>
-        </Snackbar>
       </Dialog>
+
+      {/* Success Alert */}
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={3000}
+        onClose={() => setShowAlert(false)}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          New Task Added
+        </Alert>
+      </Snackbar>
     </>
   );
 };
