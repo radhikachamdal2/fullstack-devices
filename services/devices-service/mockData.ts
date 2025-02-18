@@ -1,8 +1,7 @@
 export const devices = [
-    { id: "1", name: "Test", device: 'iphone' },
-    { id: "2", name: "Radhika", device: 'iphone'}, 
-    { id: "3", name: "Test4" , device: 'iphone'},
-    { id: "4", name: "Ben",  device: 'iphone'},
-    { id: "5", name: "Manny", device: 'iphone'},
-    { id: "6", name: "Gloria",device: 'iphone' }
+    { id: "1", name: "Test iPhone", device: "iPhone", accountId: "1" },
+    { id: "2", name: "Test iPad", device: "iPad", accountId: "1" },
+    { id: "3", name: "Radhika's iPhone", device: "iPhone", accountId: "2" },
+    { id: "4", name: "Radhika's iPad", device: "iPad", accountId: "2" },
+    { id: "5", name: "Test4's Android", device: "Android", accountId: "3" },
   ];

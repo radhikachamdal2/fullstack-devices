@@ -6,6 +6,11 @@ export const GET_ACCOUNTS = gql`
       id
       name
       email
+      devices {
+        id
+        name
+        device
+      }
     }
   }
 `;

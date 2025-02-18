@@ -44,7 +44,7 @@ const AccountDashboard = () => {
 
   const { loading, error, data: DeviceData } = useQuery(GET_DEVICES);
 
-  console.log(DeviceData, "data", loading, "loading");
+  console.log(DeviceData, "data", loading, "loading", data);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -85,14 +85,6 @@ const AccountDashboard = () => {
         >
           Create new account
         </Button>
-        {/* <Button
-          sx={{ textTransform: "none" }}
-          variant="contained"
-          onClick={updateTask}
-          aria-label="Complete Task"
-        >
-          Complete Task
-        </Button> */}
       </div>
 
       <AccountTable

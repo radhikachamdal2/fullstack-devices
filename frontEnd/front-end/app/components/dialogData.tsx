@@ -54,8 +54,6 @@ const DialogData: React.FC<DialogDataProps> = ({ headers, handleClose }) => {
 
   const submitHandler = useCallback(
     (data: Record<string, string>) => {
-      console.log(data, "datat");
-
       const input = {
         name: data.title,
         email: data.description,

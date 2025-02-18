@@ -38,8 +38,8 @@ const AccountTable: React.FC<AccountTableProps> = ({
 }) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.white,
-      color: theme.palette.common.black,
+      backgroundColor: "#1976d2",
+      color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -58,34 +58,23 @@ const AccountTable: React.FC<AccountTableProps> = ({
         </TableHead>
 
         <TableBody>
-          {tasks?.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>
-                <Checkbox
-                  checked={selectedTask?.id === item.id}
-                  onChange={(event) => checkboxHandler(event, item)}
-                />
-              </TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.email || item.device}</TableCell>
-              <TableCell
-                style={{
-                  backgroundColor:
-                    item.status === "Not Started"
-                      ? "#cc2204" //red
-                      : item.status === "In Progress"
-                      ? "#fcba03" //amber
-                      : "#2ea314", //green
-
-                  color: "#FFFFFF",
-                  textAlign: "center",
-                  borderRadius: "2px",
-                  fontWeight: 700,
-                }}
-              >
-                {item.status}
-              </TableCell>
-            </TableRow>
+          {tasks?.map((account) => (
+            <React.Fragment key={account.id}>
+              <TableRow>
+                <TableCell>
+                  <Checkbox
+                    checked={selectedTask?.id === account.id}
+                    onChange={(event) => checkboxHandler(event, account)}
+                  />
+                </TableCell>
+                <TableCell>{account.name}</TableCell>
+                <TableCell>{account.email}</TableCell>
+                <TableCell>
+                  {account.devices?.map((device) => device.name).join(", ") ||
+                    "No Devices"}
+                </TableCell>
+              </TableRow>
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>

@@ -3,57 +3,59 @@ import { buildSubgraphSchema } from "@apollo/subgraph";
 import gql from "graphql-tag";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
-import { devices } from './mockData'
 
 dotenv.config();
 
-// Define the GraphQL schema
-const typeDefs = gql`
+// Mock data for devices
+export const devices = [
+  { id: "1", name: "Test iPhone", device: "iPhone", accountId: "1" },
+  { id: "2", name: "Test iPad", device: "iPad", accountId: "1" },
+  { id: "3", name: "Radhika's iPhone", device: "iPhone", accountId: "2" },
+  { id: "4", name: "Radhika's iPad", device: "iPad", accountId: "2" },
+  { id: "5", name: "Test4's Android", device: "Android", accountId: "3" },
+];
 
-  type Device {
+const typeDefs = gql`
+  type Device @key(fields: "id") {
     id: ID!
     name: String!
     device: String!
+    accountId: ID!  # Link to the account it belongs to
   }
 
-    input DeviceInput {
-  name: String!
-  device: String!
-}
-
+  input DeviceInput {
+    name: String!
+    device: String!
+    accountId: ID!  # Account ID linking this device to an account
+  }
 
   extend type Query {
     devices: [Device]
   }
 
-
-
-
   type Mutation {
-  createNewDevice(input: DeviceInput!): Device
-} 
-
-
-
+    createDevice(input: DeviceInput!): Device
+  }
 `;
 
 const resolvers = {
   Query: {
-    devices: () => devices
+    devices: () => devices,  // Returns all devices
   },
 
-    Mutation: {
-      createNewDevice: (parent: any, { input }: { input: {  name: string, device:string } }) => {
-        const newDevice = {
-          id: uuidv4(), // Create a unique ID
-          name: input.name,
-          device: input.device,
-        };
-  
-        devices.push(newDevice); // Add new account to mock data
-        return newDevice; // Return the new account
-      },
+  Mutation: {
+    createDevice: (parent: any, { input }: { input: { name: string; device: string, accountId: string } }) => {
+      const newDevice = {
+        id: uuidv4(), // Create a unique ID
+        name: input.name,
+        device: input.device,
+        accountId: input.accountId,  // Link device to an account
+      };
+
+      devices.push(newDevice);  // Add new device to mock data
+      return newDevice;  // Return the new device
     },
+  },
 };
 
 const server = new ApolloServer({
