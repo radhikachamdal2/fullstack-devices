@@ -9,7 +9,7 @@ const gateway = new ApolloGateway({
 });
 
 const server = new ApolloServer({ gateway,   cors: {
-  origin: "http://localhost:8081",
+  origin: "*",
   credentials: true,
 },
  } )
