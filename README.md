@@ -37,7 +37,7 @@ First, clone the repository to your local machine:
 
 - git clone "https...."
 
-- cd "fullstack-app"
+- cd "fullstack-devices"
 
 #### 2. Install Dependencies
 Both the frontend and backend require dependencies to be installed.
