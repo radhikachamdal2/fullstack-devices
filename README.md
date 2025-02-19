@@ -40,7 +40,7 @@ First, clone the repository to your local machine:
 - cd "fullstack-devices"
 
 #### 2. Install Dependencies
-Both the frontend and backend require dependencies to be installed.
+Both the front-end and back-end require dependencies to be installed.
 
 Backend
 
@@ -53,10 +53,10 @@ Install the backend dependencies:
 
 This will install all the required packages listed in the package.json file, and the backend should be ready to run.
 
- Frontend
-Now, navigate back to the root of the project and then to the frontend directory:
+Frontend
+Now create another terminal, and navigate to the front end directory: 
 
-- cd ../front-end
+- cd front-end
   
 Install the frontend dependencies:
 
@@ -66,21 +66,22 @@ This will install all necessary dependencies for the frontend application.
 
 #### 3. Run the Backend and Frontend Locally
 
+Start the Frontend
+
+As your currently in the front-end folder, start the React application:
+
+- npm run dev
+
+##### The frontend will now be running on http://localhost:3000.
+
 Start the Backend
 
-In the back-end folder, start the server by running:
+Select the backend terminal tab, start the server by running:
 
 - npm run dev
   
 ##### The backend will now be running on http://localhost:4000.
 
-Start the Frontend
-
-In the frontend folder, start the React application:
-
-- npm run dev
-
-##### The frontend will now be running on http://localhost:3000.
 
 At this point, the frontend should be able to make requests to the backend, and you should see the application in action.
 
