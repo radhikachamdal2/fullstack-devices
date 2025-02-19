@@ -101,6 +101,7 @@ const AccountDashboard = () => {
         open={newAccountDialog}
         handleClose={() => setNewAccountDialog(false)}
         title="Create New Account"
+        contentText="Please fill all fields to add new account"
       >
         <DialogData
           data={accountData}
