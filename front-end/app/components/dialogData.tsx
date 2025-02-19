@@ -41,7 +41,15 @@ const DialogData: React.FC<DialogDataProps> = ({
           name={item.title.toLowerCase()}
           control={control}
           defaultValue=""
-          rules={{ required: `${item.title} is required` }}
+          rules={{
+            required: `${item.title} is required`,
+            ...(item.type === "email" && {
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email format",
+              },
+            }),
+          }}
           render={({ field }) => (
             <TextField
               {...field}

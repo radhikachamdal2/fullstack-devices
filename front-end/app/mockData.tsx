@@ -12,7 +12,7 @@ export const accountData = [
   {
     title: "Email",
     description: [""],
-    type: "textarea",
+    type: "email",
     value: "",
   },
 ];
