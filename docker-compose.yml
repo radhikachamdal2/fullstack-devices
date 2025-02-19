@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./front-end
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gateway
+
+  gateway:
+    build: ./back-end/services/gateway
+    ports:
+      - "4000:4000"
+    depends_on:
+      - service-1
+      - service-2
+
+  service-1:
+    build: ./back-end/services/account-service
+    ports:
+      - "4001:4001"
+
+  service-2:
+    build: ./back-end/services/devices-service
+    ports:
+      - "4002:4002"

@@ -7,3 +7,4 @@ export const accounts = [
   { id: "6", name: "Fiona Green", email: "fiona.green@example.com" },
   { id: "7", name: "George King", email: "george.king@example.com" }
 ];
+

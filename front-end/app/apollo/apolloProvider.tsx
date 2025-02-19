@@ -1,4 +1,4 @@
-"use client"; // Ensure this runs only on the client side
+"use client";
 
 import { ApolloProvider as Provider } from "@apollo/client";
 import client from "./apolloClient";

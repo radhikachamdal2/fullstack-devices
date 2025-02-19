@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { accounts } from './mockData';
 import { devices } from '../devices-service/mockData'; 
 
+
 dotenv.config();
 
 

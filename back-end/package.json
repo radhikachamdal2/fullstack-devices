@@ -9,8 +9,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-
-  "dev": "concurrently \"ts-node services/account-service/index.ts\" \"ts-node services/devices-service/index.ts\" \"ts-node services/gateway/index.ts\""
+    "dev": "concurrently \"ts-node services/account-service/index.ts\" \"ts-node services/devices-service/index.ts\" \"ts-node services/gateway/index.ts\""
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,7 @@
     "@apollo/gateway": "^2.10.0",
     "@types/node": "^22.13.4",
     "apollo-server": "^3.13.0",
+    "concurrently": "^9.1.2",
     "dotenv": "^16.4.7",
     "graphql": "^16.10.0",
     "ts-node": "^10.9.2",
