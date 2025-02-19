@@ -1,6 +1,6 @@
-# Account - Devices 
+# Accounts Application
 
-# This is application which shows the accounts of individuals with their devices. The application allows users to create new accounts and devices and this will show onto the table instantly. 
+This is application which shows the accounts of individuals with their devices. The application allows users to create new accounts and devices and this will show onto the table instantly. 
 
 The application as a whole is simple, I wanted to showcase in particular how I was able to upskill and build the backend service, there are areas for improvement with the front end, and backend. 
 
