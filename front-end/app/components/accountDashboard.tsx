@@ -50,8 +50,6 @@ const AccountDashboard = () => {
 
   const { data, headers } = filterData();
 
-  console.log(data, "dataaa");
-
   return (
     <>
       <div

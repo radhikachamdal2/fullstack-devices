@@ -44,7 +44,6 @@ const AccountTable: React.FC<AccountTableProps> = ({
   }));
 
   const getDeviceColumnContent = (devices: Device[]) => {
-    console.log(devices, "devices");
     if (devices?.length > 0) {
       return devices
         .map((device, index) => <span key={index}>{device.name}</span>)
