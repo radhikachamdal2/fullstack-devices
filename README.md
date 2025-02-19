@@ -114,6 +114,8 @@ query GetAccounts {
   }
 }
 
+This will fetch all the accounts and the devices linked, this is the view on page load.
+
 Example GraphQL Mutation
 - Mutation for Adding a Device:
 
