@@ -8,9 +8,9 @@
     "services/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"ts-node services/account-service/index.ts\" \"ts-node services/devices-service/index.ts\" \"ts-node services/gateway/index.ts\""
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
