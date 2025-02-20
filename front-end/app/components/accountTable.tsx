@@ -15,6 +15,7 @@ import React from "react";
 
 type Device = {
   name: string;
+  device: string;
 };
 
 type Account = {
@@ -44,12 +45,13 @@ const AccountTable: React.FC<AccountTableProps> = ({
   }));
 
   const getDeviceColumnContent = (devices: Device[]) => {
-    if (devices?.length > 0) {
-      return devices
-        .map((device, index) => <span key={index}>{device.name}</span>)
-        .reduce((prev, curr) => [prev, ", ", curr]);
+    if (!devices?.length) {
+      return <span style={{ color: "gray" }}>No Devices</span>;
     }
-    return <span style={{ color: "gray" }}>No Devices</span>;
+
+    const deviceNames = devices.map(({ device }) => device).join(", ");
+
+    return <span>{deviceNames}</span>;
   };
 
   return (

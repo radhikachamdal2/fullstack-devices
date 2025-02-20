@@ -7,33 +7,34 @@ import { useState } from "react";
 import Dialog from "./dialog";
 import DialogData from "./dialogData";
 import ToggleButtons from "./toggleButton";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_ACCOUNTS,
   GET_DEVICES,
   CREATE_ACCOUNT_MUTATION,
 } from "../queries/queries";
-import { useMutation } from "@apollo/client";
 
 const AccountDashboard = () => {
   const [newAccountDialog, setNewAccountDialog] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAllAccounts, setShowAllAccounts] = useState(false);
 
+  // Queries
   const {
-    loading: AccountsLoad,
-    error: AccountsError,
-    data: AccountsData,
+    loading: accountsLoading,
+    error: accountsError,
+    data: accountsData,
   } = useQuery(GET_ACCOUNTS);
   const {
-    loading: DeviceLoading,
-    error: DeviceError,
-    data: DeviceData,
+    loading: devicesLoading,
+    error: devicesError,
+    data: devicesData,
   } = useQuery(GET_DEVICES);
 
-  const isLoading = AccountsLoad || DeviceLoading;
-  const isError = AccountsError || DeviceError;
+  const isLoading = accountsLoading || devicesLoading;
+  const isError = !!accountsError || !!devicesError;
 
+  // Mutation
   const [
     createAccount,
     { loading: createAccountLoading, error: createAccountError },
@@ -53,8 +54,8 @@ const AccountDashboard = () => {
 
   const filterData = () =>
     !showAllAccounts
-      ? { data: AccountsData?.accounts || [], headers: accountHeaders }
-      : { data: DeviceData?.devices || [], headers: deviceHeaders };
+      ? { data: accountsData?.accounts || [], headers: accountHeaders }
+      : { data: devicesData?.devices || [], headers: deviceHeaders };
 
   const { data, headers } = filterData();
 
@@ -83,17 +84,23 @@ const AccountDashboard = () => {
         </Button>
       </div>
 
-      {/* Loading and Error Handling */}
       {isLoading || (createAccountLoading && <p>Loading...</p>)}
-      {isError ||
-        (createAccountError && (
-          <Snackbar open={showAlert} autoHideDuration={4000} onClose={() => {}}>
-            <Alert severity="error">
-              {AccountsError && `Accounts Error`}
-              {DeviceError && ` Devices Error`}
-            </Alert>
-          </Snackbar>
-        ))}
+
+      {isError && (
+        <Snackbar
+          open={showAlert}
+          autoHideDuration={4000}
+          onClose={() => setShowAlert(false)}
+        >
+          <Alert severity="error">
+            {accountsError && <p>Accounts Error: {accountsError.message}</p>}
+            {devicesError && <p>Devices Error: {devicesError.message}</p>}
+            {createAccountError && (
+              <p>Create Account Error: {createAccountError.message}</p>
+            )}
+          </Alert>
+        </Snackbar>
+      )}
 
       {!isLoading && <AccountTable headers={headers} accountData={data} />}
 
@@ -101,7 +108,7 @@ const AccountDashboard = () => {
         open={newAccountDialog}
         handleClose={() => setNewAccountDialog(false)}
         title="Create New Account"
-        contentText="Please fill all fields to add new account"
+        contentText="Please fill all fields to add a new account"
       >
         <DialogData
           data={accountData}
