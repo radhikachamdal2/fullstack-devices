@@ -21,8 +21,8 @@ type Device = {
 type Account = {
   id: number;
   name: string;
-  email: string;
-  devices: [Device];
+  email?: string;
+  devices: Device[];
 };
 
 interface AccountTableProps {
@@ -44,16 +44,6 @@ const AccountTable: React.FC<AccountTableProps> = ({
     },
   }));
 
-  const getDeviceColumnContent = (devices: Device[]) => {
-    if (!devices?.length) {
-      return <span style={{ color: "gray" }}>No Devices</span>;
-    }
-
-    const deviceNames = devices.map(({ device }) => device).join(", ");
-
-    return <span>{deviceNames}</span>;
-  };
-
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -66,8 +56,8 @@ const AccountTable: React.FC<AccountTableProps> = ({
         </TableHead>
 
         <TableBody>
-          {accountData?.map((account) => (
-            <React.Fragment key={account.id}>
+          {accountData?.map((account, index) => (
+            <React.Fragment key={index}>
               <TableRow>
                 <TableCell>
                   <Checkbox />
@@ -75,7 +65,11 @@ const AccountTable: React.FC<AccountTableProps> = ({
                 <TableCell>{account.name}</TableCell>
                 {/* Conditionally render the email cell if email is present */}
                 {account.email && <TableCell>{account.email}</TableCell>}
-                <TableCell>{getDeviceColumnContent(account.devices)}</TableCell>
+                <TableCell>
+                  {account.devices.length > 0
+                    ? account.devices.map((d) => d.device).join(", ")
+                    : "No Devices"}
+                </TableCell>
               </TableRow>
             </React.Fragment>
           ))}

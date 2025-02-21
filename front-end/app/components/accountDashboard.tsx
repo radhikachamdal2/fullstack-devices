@@ -2,22 +2,30 @@
 
 import { Button, Alert, Snackbar } from "@mui/material";
 import AccountTable from "./accountTable";
-import { accountHeaders, accountData, deviceHeaders } from "../mockData";
+import { accountHeaders, accountData } from "../mockData";
 import { useState } from "react";
 import Dialog from "./dialog";
 import DialogData from "./dialogData";
-import ToggleButtons from "./toggleButton";
 import { useQuery, useMutation } from "@apollo/client";
-import {
-  GET_ACCOUNTS,
-  GET_DEVICES,
-  CREATE_ACCOUNT_MUTATION,
-} from "../queries/queries";
+import { GET_ACCOUNTS, CREATE_ACCOUNT_MUTATION } from "../queries/queries";
 
 const AccountDashboard = () => {
+  interface Device {
+    id: string;
+    name: string;
+    device: string;
+    accountId: string;
+  }
+
+  interface Account {
+    id: string;
+    name: string;
+    email: string;
+    devices?: Device[]; // Optional in case some accounts have no devices
+  }
+
   const [newAccountDialog, setNewAccountDialog] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [showAllAccounts, setShowAllAccounts] = useState(false);
 
   // Queries
   const {
@@ -25,14 +33,9 @@ const AccountDashboard = () => {
     error: accountsError,
     data: accountsData,
   } = useQuery(GET_ACCOUNTS);
-  const {
-    loading: devicesLoading,
-    error: devicesError,
-    data: devicesData,
-  } = useQuery(GET_DEVICES);
 
-  const isLoading = accountsLoading || devicesLoading;
-  const isError = !!accountsError || !!devicesError;
+  const isLoading = accountsLoading;
+  const isError = !!accountsError;
 
   // Mutation
   const [
@@ -52,12 +55,20 @@ const AccountDashboard = () => {
     }).catch(console.error);
   };
 
-  const filterData = () =>
-    !showAllAccounts
-      ? { data: accountsData?.accounts || [], headers: accountHeaders }
-      : { data: devicesData?.devices || [], headers: deviceHeaders };
+  const filterData = () => {
+    return {
+      headers: accountHeaders,
+      data: Array.isArray(accountsData?.accounts)
+        ? accountsData.accounts.map((account: Account) => ({
+            name: account.name,
+            email: account.email,
+            devices: account.devices || [], // Ensure it's always an array
+          }))
+        : [],
+    };
+  };
 
-  const { data, headers } = filterData();
+  const { headers, data } = filterData();
 
   return (
     <>
@@ -71,10 +82,6 @@ const AccountDashboard = () => {
           marginBottom: "1em",
         }}
       >
-        <ToggleButtons
-          showAllAccounts={showAllAccounts}
-          setShowAllAccounts={setShowAllAccounts}
-        />
         <Button
           sx={{ textTransform: "none" }}
           variant="contained"
@@ -94,7 +101,6 @@ const AccountDashboard = () => {
         >
           <Alert severity="error">
             {accountsError && <p>Accounts Error: {accountsError.message}</p>}
-            {devicesError && <p>Devices Error: {devicesError.message}</p>}
             {createAccountError && (
               <p>Create Account Error: {createAccountError.message}</p>
             )}
