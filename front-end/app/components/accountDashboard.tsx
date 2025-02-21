@@ -21,7 +21,7 @@ const AccountDashboard = () => {
     id: string;
     name: string;
     email: string;
-    devices?: Device[]; // Optional in case some accounts have no devices
+    devices?: Device[];
   }
 
   const [newAccountDialog, setNewAccountDialog] = useState(false);
@@ -62,7 +62,7 @@ const AccountDashboard = () => {
         ? accountsData.accounts.map((account: Account) => ({
             name: account.name,
             email: account.email,
-            devices: account.devices || [], // Ensure it's always an array
+            devices: account.devices || [],
           }))
         : [],
     };
