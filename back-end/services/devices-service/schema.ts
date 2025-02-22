@@ -9,7 +9,7 @@ export const typeDefs = gql`
   }
 
   input DeviceInput {
-    name: String!
+    name: String
     device: String!
     accountId: ID  # Account ID linking this device to an account
   }
