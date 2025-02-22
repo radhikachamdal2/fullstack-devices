@@ -14,7 +14,6 @@ const AccountDashboard = () => {
     id: string;
     name: string;
     device: string;
-    accountId: string;
   }
 
   interface Account {
@@ -50,8 +49,19 @@ const AccountDashboard = () => {
   });
 
   const handleCreateAccount = (formData: Record<string, string>) => {
+    console.log(formData, "input");
     createAccount({
-      variables: { input: { name: formData.name, email: formData.email } },
+      variables: {
+        input: {
+          name: formData.name,
+          email: formData.email,
+          devices: [
+            {
+              device: formData.device,
+            },
+          ],
+        },
+      },
     }).catch(console.error);
   };
 

@@ -15,4 +15,11 @@ export const accountData = [
     type: "email",
     value: "",
   },
+
+  {
+    title: "Device",
+    description: [""],
+    type: "text",
+    value: "",
+  },
 ];

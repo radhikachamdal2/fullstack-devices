@@ -44,6 +44,7 @@ const AccountTable: React.FC<AccountTableProps> = ({
     },
   }));
 
+  console.log(accountData, "acc data");
   return (
     <TableContainer component={Paper}>
       <Table>

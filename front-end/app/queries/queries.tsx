@@ -21,6 +21,9 @@ export const CREATE_ACCOUNT_MUTATION = gql`
       id
       name
       email
+      devices {
+        device
+      }
     }
   }
 `;
