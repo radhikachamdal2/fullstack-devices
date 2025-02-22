@@ -40,7 +40,7 @@ export const GET_DEVICES = gql`
 
 export const CREATE_NEW_DEVICE = gql`
   mutation CreateDevice($input: DeviceInput!) {
-    createNewDevice(input: $input) {
+    createDevice(input: $input) {
       id
       name
       device
