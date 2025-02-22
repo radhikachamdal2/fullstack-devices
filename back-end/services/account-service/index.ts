@@ -11,23 +11,31 @@ dotenv.config();
 
 
 const typeDefs = gql`
+
   type Account @key(fields: "id") {
     id: ID!
     name: String!
     email: String!
-    devices: [Device]  # Link to the devices related to the account
+    devices: [Device]  
   }
 
   type Device @key(fields: "id") {
     id: ID!
-    name: String!
+    name: String
     device: String!
-    accountId: ID!  # Account to which the device is linked
+    accountId: ID
+  }
+
+  input DeviceInput {
+    name: String  
+    device: String!
+      accountId: ID
   }
 
   input AccountInput {
     name: String!
     email: String!
+    devices: [DeviceInput] 
   }
 
   extend type Query {
@@ -52,7 +60,7 @@ const resolvers = {
   },
 
   Mutation: {
-    createAccount: (parent: any, { input }: { input: { name: string; email: string } }) => {
+    createAccount: (parent: any, { input }: { input: { name: string; email: string; devices: {name: string; device: string}[]} }) => {
       const newAccount = {
         id: uuidv4(), 
         name: input.name,
@@ -60,7 +68,19 @@ const resolvers = {
       };
 
       accounts.push(newAccount); 
-      return newAccount;  
+
+      const createdDevices = input.devices.map((deviceInput) => {
+        const newDevice = {
+          id: uuidv4(),
+          name: deviceInput.name,
+          device: deviceInput.device,
+          accountId: newAccount.id,
+        };
+        devices.push(newDevice);
+        return newDevice;
+      })
+
+      return {...newAccount, devices: createdDevices}
     },
   },
 };

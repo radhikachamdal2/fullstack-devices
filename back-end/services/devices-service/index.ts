@@ -13,13 +13,13 @@ const typeDefs = gql`
     id: ID!
     name: String!
     device: String!
-    accountId: ID!  # Link to the account it belongs to
+    accountId: ID  # Link to the account it belongs to
   }
 
   input DeviceInput {
     name: String!
     device: String!
-    accountId: ID!  # Account ID linking this device to an account
+    accountId: ID  # Account ID linking this device to an account
   }
 
   extend type Query {
