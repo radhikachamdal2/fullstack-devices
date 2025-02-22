@@ -2,13 +2,14 @@
 
 This application is designed to showcase how individuals' accounts are managed, displaying their associated devices. Users can create new accounts and devices, with the information instantly reflected on a table.
 
-The primary goal of this project was to demonstrate how I could build a backend service using Apollo Server with GraphQL and explore Docker containerization. While the frontend and backend work, there is potential for future improvements, particularly in integrating the backend services with the frontend more effectively.
+Within this technical task, my aim was to show how I can implement backend services, using Apollo Server with GraphQL. The frontend is simple, and has potential for improvements, this task shows how I have been able to build the services, and implement integration.
 
 ### Future Enhancements
 - Expand GraphQL queries to handle more complex data.
-- Integrate the "Add Device" mutation to allow users to add devices via the frontend.
+- Integrate the "Add Device" mutation to allow users to add devices via the frontend, the mutation is built for this but needs integration.
 - Improve Docker configuration to ensure smoother installation and deployment.
 - Potentially refactor the backend to use Express.js for better handling of CORS and easier management of API routes.
+- Instead of having a mock data file, connect the data to a database e.g. mongoDb for better data handling. 
 
 ### Technologies Used
 Frontend:
@@ -64,11 +65,11 @@ Install the frontend dependencies:
 
 This will install all necessary dependencies for the frontend application.
 
-#### 3. Run the Backend and Frontend Locally
+#### 3. Run the Backend and Frontend Locally - these should both run in parallel.
 
 Start the Frontend
 
-As your currently in the front-end folder, start the React application:
+As your currently in the front-end folder, start the React application by running:
 
 - npm run dev
 
@@ -76,7 +77,7 @@ As your currently in the front-end folder, start the React application:
 
 Start the Backend
 
-Select the backend terminal tab, start the server by running:
+Select the backend terminal tab from before, and start the server by running:
 
 - npm run dev
   
@@ -97,43 +98,111 @@ Build and run the containers:
 Note: The Docker configuration isn't fully working at the moment and is working progress.
 
 ### GraphQL API
-- The backend exposes a GraphQL API through Apollo Server. Below is an example of how you can interact with the API using Apollo Client in the frontend.
+There are 2 services present: Accounts Service, and Devices Service. 
 
-- Example GraphQL Query
-- GraphQL Query for Fetching Accounts
+What to expect? 
+- Fetch Queries for both services,
+- Mutations for both services, - create new account with devices is shown within the frontend. Create new devices is just implemented on the backend.
+
+Future improvements for queries/services: 
+- I have built a create new Devices mutation, which allows users to add just new devices without creating a new account - this needs front end implementation.
+- Build a edit functionality, where users can edit their devices/
+
+
+The backend exposes a GraphQL API through Apollo Server. Below is an example of how you can interact with the API using Apollo Client in the frontend.
+
+#### Accounts Service
+
+If testing on Apollo Playground: http://localhost:4001 - this will test the account service: you can create new accounts or fetch new accounts 
 
 The frontend can query accounts and devices using the following GraphQL query:
 
-query GetAccounts {
-  accounts {
-    id
-    name
-    devices {
+Fetch all accounts 
+
+ ````
+  query GetAccounts {
+    accounts {
       id
       name
+      email
+      devices {
+        id
+        name
+        device
+      }
     }
   }
-}
 
-This will fetch all the accounts and the devices linked, this is the view on page load.
+````
 
-Example GraphQL Mutation
-- Mutation for Adding a Device:
+Example GraphQL Mutation: 
 
-You can add new devices with a mutation like:
+##### Create a new account with devices 
 
+ ````
   mutation CreateAccount($input: AccountInput!) {
     createAccount(input: $input) {
       id
       name
       email
+      devices {
+        device
+      }
+    }
+  }
+  ````
+Input could be along the lines of: 
+
+
+```
+{
+  "input": {
+    "name": "John Doe", 
+    "email": "john@example.com", 
+    "devices": {
+      "device": "Apple Watch"
+    }
+}
+}
+```
+
+#### Device queries 
+
+If testing on Apollo Playground: http://localhost:4002 - this will test the devices service: you can create new devices or fetch new accounts 
+
+Fetch all devices: 
+
+````
+  query GetDevices {
+    devices {
+      id
+      name
+      device
     }
   }
 
-Your input could look like name: "Joe" email: "joe@.com when on the frontend. 
+````
 
-After clicking submit, have a look in the network tab to see the input! 
+##### Create a new device 
 
-Mutation Call in the Frontend after clicking on the dialog - "create new devices"
+````
+ mutation CreateDevice($input: DeviceInput!) {
+    createDevice(input: $input) {
+      id
+      name
+      device
+    }
+  }
+````
 
+Input could be along the lines of: 
+
+```
+{
+  "input": {
+    "name": "John Doe",
+    "device": "Speakers"
+}
+}
+```
 
