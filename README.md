@@ -111,41 +111,98 @@ Future improvements for queries/services:
 
 The backend exposes a GraphQL API through Apollo Server. Below is an example of how you can interact with the API using Apollo Client in the frontend.
 
-- Example GraphQL Query
-- GraphQL Query for Fetching Accounts
+#### Accounts Service
+
+If testing on Apollo Playground: http://localhost:4001 - this will test the account service: you can create new accounts or fetch new accounts 
 
 The frontend can query accounts and devices using the following GraphQL query:
 
-query GetAccounts {
-  accounts {
-    id
-    name
-    devices {
+Fetch all accounts 
+
+ ````
+  query GetAccounts {
+    accounts {
       id
       name
+      email
+      devices {
+        id
+        name
+        device
+      }
     }
   }
-}
 
-This will fetch all the accounts and the devices linked, this is the view on page load.
+````
 
-Example GraphQL Mutation
-- Mutation for Adding a Device:
+Example GraphQL Mutation: 
 
-You can add new devices with a mutation like:
+##### Create a new account with devices 
 
+ ````
   mutation CreateAccount($input: AccountInput!) {
     createAccount(input: $input) {
       id
       name
       email
+      devices {
+        device
+      }
+    }
+  }
+  ````
+Input could be along the lines of: 
+
+
+```
+{
+  "input": {
+    "name": "John Doe", 
+    "email": "john@example.com", 
+    "devices": {
+      "device": "Apple Watch"
+    }
+}
+}
+```
+
+#### Device queries 
+
+If testing on Apollo Playground: http://localhost:4002 - this will test the devices service: you can create new devices or fetch new accounts 
+
+Fetch all devices: 
+
+````
+  query GetDevices {
+    devices {
+      id
+      name
+      device
     }
   }
 
-Your input could look like name: "Joe" email: "joe@hotmail.com when on the frontend. 
+````
 
-After clicking submit, have a look in the network tab to see the input! 
+##### Create a new device 
 
-Mutation Call in the Frontend after clicking on the dialog - "create new devices"
+````
+ mutation CreateDevice($input: DeviceInput!) {
+    createNewDevice(input: $input) {
+      id
+      name
+      device
+    }
+  }
+````
 
+Input could be along the lines of: 
+
+```
+{
+  "input": {
+    "name": "John Doe",
+    "device": "Speakers"
+}
+}
+```
 
