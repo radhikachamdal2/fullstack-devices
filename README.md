@@ -187,7 +187,7 @@ Fetch all devices:
 
 ````
  mutation CreateDevice($input: DeviceInput!) {
-    createNewDevice(input: $input) {
+    createDevice(input: $input) {
       id
       name
       device
